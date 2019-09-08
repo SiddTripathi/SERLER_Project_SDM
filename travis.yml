@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - 12.7.0
+cache: npm
+
+script: jest
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  on:
+    branch: feature/dev_sidd
