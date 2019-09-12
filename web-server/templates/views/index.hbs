@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        .topleft {
+            position: absolute;
+            top: 20px;
+            right: 600px;
+            font-size: 13px;
+            font-style: italic;
+            color: rgb(220, 223, 228);
+        }
+
+        .menuright {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+        }
+
+        .center {
+            position: absolute;
+            left: 687px;
+            top: 400px;
+            width: 50%;
+            text-align: center;
+            font-size: 40px;
+        }
+
+        .img1 {
+            width: 100%;
+            height: auto;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    {{>header}}
+    <div>
+        <img class="img1" src="img/sample.jpg" />
+
+        <div class="center">
+            <p>Search Here</p>
+            <br />
+
+            <input type="search" style="width:406px;height:29px" placeholder="Search..." />
+            <button type="submit" style="height:29px">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+    {{>footer}}
+</body>
+
+</html>
