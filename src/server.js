@@ -59,16 +59,16 @@ const client = new Client({
 });
 client.connect();
 
-// client.query(
-//   "SELECT table_schema,table_name FROM information_schema.tables;",
-//   (err, res) => {
-//     if (err) throw err;
-//     for (let row of res.rows) {
-//       console.log(JSON.stringify(row));
-//     }
-//     client.end();
-//   }
-// );
+client.query(
+  "insert into user_serler values(1,null,'as','pass','asdsa@asds.com','1232123',1);",
+  (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      console.log(JSON.stringify(row));
+    }
+    client.end();
+  }
+);
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);
