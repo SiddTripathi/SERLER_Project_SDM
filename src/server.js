@@ -4,9 +4,10 @@ const hbs = require("hbs");
 const { Client } = require("pg");
 
 const app = express();
+const port = process.env.PORT || 8080;
 
 //define path for express config
-const publicDirectoryPath = path.join(__dirname, "../html");
+const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
 
@@ -57,19 +58,19 @@ const client = new Client({
   ssl: true
 });
 
-client.connect();
+// client.connect();
 
-client.query(
-  "SELECT table_schema,table_name FROM information_schema.tables;",
-  (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      console.log(JSON.stringify(row));
-    }
-    client.end();
-  }
-);
+// client.query(
+//   "SELECT table_schema,table_name FROM information_schema.tables;",
+//   (err, res) => {
+//     if (err) throw err;
+//     for (let row of res.rows) {
+//       console.log(JSON.stringify(row));
+//     }
+//     client.end();
+//   }
+// );
 
-app.listen(8080, () => {
-  console.log("Server is up on port 8080");
+app.listen(port, () => {
+  console.log("Server is up on port " + port);
 });
