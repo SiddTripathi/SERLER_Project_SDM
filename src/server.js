@@ -52,23 +52,31 @@ app.get("/analyst", (req, res) => {
   });
 });
 
+// const { Client } = require("pg");
+// const client = new Client({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: true
+// });
+
 const { Client } = require("pg");
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
+  user: "wnuvnkgceokgvn",
+  password: "2645ef631e8c9100a4a82d71ae79f9213e8389c68f257994798ed7faa04515a3",
+  host: "ec2-107-20-251-130.compute-1.amazonaws.com",
+  port: 5432,
+  database: "d5j9t6vspri53v",
   ssl: true
 });
-client.connect();
 
-client.query(
-  "insert into user_serler values(1,null,'as','pass','asdsa@asds.com','1232123',1);",
-  (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      console.log(JSON.stringify(row));
-    }
-    client.end();
+client.connect().then(() => console.log("connected"));
+
+client.query("select * from abc;", (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
   }
-);
+  client.end();
+});
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);
