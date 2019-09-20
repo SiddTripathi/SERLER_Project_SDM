@@ -1,7 +1,6 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
-const { Client } = require("pg");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -53,12 +52,12 @@ app.get("/analyst", (req, res) => {
   });
 });
 
+const { Client } = require("pg");
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true
 });
-
-// client.connect();
+client.connect();
 
 // client.query(
 //   "SELECT table_schema,table_name FROM information_schema.tables;",
