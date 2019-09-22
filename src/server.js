@@ -1,7 +1,6 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
-const { Client } = require("pg");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -53,23 +52,64 @@ app.get("/analyst", (req, res) => {
   });
 });
 
+const { Client } = require("pg");
 const client = new Client({
-  connectionString: process.env.DATABASE_URL,
+  user: "wnuvnkgceokgvn",
+  password: "2645ef631e8c9100a4a82d71ae79f9213e8389c68f257994798ed7faa04515a3",
+  host: "ec2-107-20-251-130.compute-1.amazonaws.com",
+  port: 5432,
+  database: "d5j9t6vspri53v",
   ssl: true
 });
+// const Pool = require("pg").Pool;
+// const pool = new Pool({
+//   user: "wnuvnkgceokgvn",
+//   password: "2645ef631e8c9100a4a82d71ae79f9213e8389c68f257994798ed7faa04515a3",
+//   host: "ec2-107-20-251-130.compute-1.amazonaws.com",
+//   port: 5432,
+//   database: "d5j9t6vspri53v",
+//   ssl: true
+// });
 
 // client.connect();
+client.connect().then(() => console.log("connected"));
 
-// client.query(
-//   "SELECT table_schema,table_name FROM information_schema.tables;",
-//   (err, res) => {
+// const search = (request, response) => {
+//   pool.query("SELECT user_id FROM abc", (error, results) => {
+//     console.log(results);
+//     if (error) {
+//       throw error;
+//     }
+//     for (let row of results.rows) {
+//       console.log(JSON.stringify(row));
+//     }
+//     response.status(200).json(results.rows);
+//   });
+// };
+
+var search = "abc,kbd,asdsa"; //screen searc bar
+search = search.replace(/,/g, "' and summary like '%");
+var searchword = "summary like '%" + search + "%'";
+client.query(
+  "SELECT * FROM article_info where " + searchword + ";",
+  (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      console.log(JSON.stringify(row));
+    }
+    client.end();
+  }
+);
+// app.get("/search", (req, res) => {
+//   client.query("SELECT * FROM journal;", (err, res) => {
 //     if (err) throw err;
 //     for (let row of res.rows) {
 //       console.log(JSON.stringify(row));
 //     }
 //     client.end();
-//   }
-// );
+//   });
+//   res.send(res.rows);
+// });
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);
