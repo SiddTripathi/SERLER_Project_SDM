@@ -89,8 +89,8 @@ client.connect().then(() => console.log("connected"));
 
 app.get("/search", (req, response) => {
   if (!req.query.describe) {
-    return res.send({
-      error: "you must pass address"
+    return response.send({
+      error: "Please enter something to search......"
     });
   }
 
@@ -107,7 +107,7 @@ app.get("/search", (req, response) => {
         console.log(JSON.stringify(row));
         dataset = row;
       }
-      client.end();
+      // client.end();
       response.send({
         dataset
       });
