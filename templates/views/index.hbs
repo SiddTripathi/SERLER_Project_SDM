@@ -73,6 +73,21 @@
       margin-right: auto;
 
     }
+
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      color: blanchedalmond
+    }
   </style>
 </head>
 
@@ -89,7 +104,7 @@
       <div class="search">
         <form class="search">
           <input type="text" class="searchTerm" placeholder="Find the practice that works for you">
-          <button type="submit" class="searchButton">
+          <button type="submit" class="searchButton" onclick="myFunction()">
             <i class="fa fa-search"></i>
           </button>
         </form>
@@ -100,11 +115,42 @@
         <p id="message-2" style="color: blanchedalmond"></p>
         <p id="message-3" style="color: blanchedalmond"></p>
       </div>
+      <div id="results" style="display: none">
+        <h2 style="color:blanchedalmond">Result</h2>
 
+        <table>
+          <tr>
+            <th>Article ID</th>
+            <th>Research question</th>
+            <th>Benefit</th>
+          </tr>
+          <tr>
+            <td id="article"></td>
+            <td id="research-ques"></td>
+            <td id="benefit"></td>
+          </tr>
+        </table>
+
+      </div>
     </div>
   </div>
   {{>footer}}
   <script src="/js/search.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("results");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+  </script>
+
+
 </body>
 
 </html>
