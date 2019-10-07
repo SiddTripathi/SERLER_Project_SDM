@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^16.5.0",
+    "devextreme": "^19.1.6",
     "express": "^4.17.1",
-    "hbs": "^4.0.4",
+    "hbs": "^4.0.5",
+    "jquery": "^3.4.1",
     "pg": "^7.12.1"
   }
 }

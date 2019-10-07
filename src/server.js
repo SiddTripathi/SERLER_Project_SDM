@@ -89,25 +89,26 @@ client.connect().then(() => console.log("connected"));
 
 app.get("/search", (req, response) => {
   if (!req.query.describe) {
-    return res.send({
-      error: "you must pass address"
+    return response.send({
+      error: "Please enter something to search......"
     });
   }
 
   var search = req.query.describe; //screen searc bar
-  search = search.replace(/,/g, "' and summary like '%");
-  var searchword = "summary like '%" + search + "%'";
+  search = search.replace(/,/g, "' and lower(summary) like '%");
+  var searchword = "lower(summary) like '%" + search + "%'";
+  searchword=searchword.toLowerCase();
   let dataset;
   console.log(search);
   client.query(
-    "SELECT * FROM article_info where " + searchword + ";",
+    "SELECT summary FROM article_info where " + searchword + ";",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
         console.log(JSON.stringify(row));
         dataset = row;
       }
-      client.end();
+      // client.end();
       response.send({
         dataset
       });
