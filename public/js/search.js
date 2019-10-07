@@ -1,6 +1,9 @@
 const messageOne = document.querySelector("#message-1");
-const messageTwo = document.querySelector("#message-2");
-const messageThree = document.querySelector("#message-3");
+
+const article = document.querySelector("#article");
+const researchQues = document.querySelector("#research-ques");
+const benefit = document.querySelector("#benefit");
+
 const searchform = document.querySelector("form");
 const search = document.querySelector("input");
 
@@ -8,7 +11,7 @@ searchform.addEventListener("submit", e => {
   e.preventDefault();
   const searchText = search.value;
   messageOne.textContent = "Loading...";
-  messageTwo.textContent = "";
+
   fetch("/search?describe=" + searchText).then(response => {
     response.json().then(data => {
       if (data.error) {
@@ -17,11 +20,14 @@ searchform.addEventListener("submit", e => {
       } else {
         console.log(data);
         let resultdata = JSON.stringify(data);
-        messageOne.textContent = data.dataset.article_id;
-        messageTwo.textContent = data.dataset.benefit;
-        messageThree.textContent = data.dataset.summary;
+        console.log(resultdata);
+        messageOne.textContent = "The result";
+        article.textContent = data.dataset.article_id;
+        researchQues.textContent = data.dataset.research_ques;
+        benefit.textContent = data.dataset.benefit;
       }
     });
   });
+
   console.log(searchText);
 });
