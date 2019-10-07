@@ -101,7 +101,7 @@ app.get("/search", (req, response) => {
   let dataset;
   console.log(search);
   client.query(
-    "SELECT summary FROM article_info where " + searchword + ";",
+    "SELECT * FROM article_info where " + searchword + ";",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
