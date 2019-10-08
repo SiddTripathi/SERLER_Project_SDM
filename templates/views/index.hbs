@@ -102,8 +102,8 @@
 
 
       <div class="search">
-        <form class="search">
-          <input type="text" class="searchTerm" placeholder="Find the practice that works for you">
+        <form class="search" id="search">
+          <input type="text" class="searchTerm" id="searchTerm" placeholder="Find the practice that works for you">
           <button type="submit" class="searchButton" onclick="myFunction()">
             <i class="fa fa-search"></i>
           </button>
@@ -116,31 +116,29 @@
         <p id="message-3" style="color: blanchedalmond"></p>
       </div>
       <div id="results" style="display: none">
-        <h2 style="color:blanchedalmond">Result</h2>
-
-        <table>
+        <h2 style="color:blanchedalmond" id="errorResult"></h2>
+      </div>
+      <div>
+        <table id="answer" style="display: none;">
           <tr>
             <th>Article ID</th>
             <th>Research question</th>
-            <th>Benefit</th>
+            {{!-- <th>Benefit</th> --}}
           </tr>
-          <tr>
-            <td id="article"></td>
-            <td id="research-ques"></td>
-            <td id="benefit"></td>
-            <td></td>
-          </tr>
+          <tbody id="tbody">
+
+          </tbody>
         </table>
 
       </div>
     </div>
   </div>
   {{>footer}}
-  <script src="/js/search.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="/js/search.js"></script>
 
 
-  <script>
+  {{!-- <script>
     function myFunction() {
       var x = document.getElementById("results");
       if (x.style.display === "none") {
@@ -149,7 +147,7 @@
         x.style.display = "none";
       }
     }
-  </script>
+  </script> --}}
 
 
 </body>

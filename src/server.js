@@ -97,21 +97,23 @@ app.get("/search", (req, response) => {
   var search = req.query.describe; //screen searc bar
   search = search.replace(/,/g, "' and lower(summary) like '%");
   var searchword = "lower(summary) like '%" + search + "%'";
-  searchword=searchword.toLowerCase();
-  let dataset;
+  searchword = searchword.toLowerCase();
+  let dataset = [];
   console.log(search);
   client.query(
     "SELECT * FROM article_info where " + searchword + ";",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
+        console.log(typeof row);
         console.log(JSON.stringify(row));
-        dataset = row;
+        dataset.push(row);
       }
       // client.end();
       response.send({
         dataset
       });
+      response.render();
     }
   );
 });
