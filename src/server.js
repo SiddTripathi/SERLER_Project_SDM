@@ -95,13 +95,13 @@ app.get("/search", (req, response) => {
   }
 
   var search = req.query.describe; //screen searc bar
-  search = search.replace(/,/g, "' and lower(summary) like '%");
-  var searchword = "lower(summary) like '%" + search + "%'";
+  search = search.replace(/,/g, "' and lower(ai.summary) like '%");
+  var searchword = "lower(ai.summary) like '%" + search + "%'";
   searchword=searchword.toLowerCase();
   let dataset;
   console.log(search);
   client.query(
-    "SELECT * FROM article_info where " + searchword + ";",
+    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " + searchword + " and ai.article_id=at.article_id;",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
