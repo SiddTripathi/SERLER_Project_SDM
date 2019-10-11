@@ -143,10 +143,10 @@ $(document.body).on('click', '.addFilter', function () {
         "<option value=doesNotContain>Does Not Contain</option>" +
 
         "</select >" +
-        "<select id=type>" +
+        "<select class=type id=type>" +
         '<option selected="true" disabled>Select your choice</option>' +
         "</select>" +
-        "<select id=operator>" +
+        "<select class=operator id=operator>" +
         "<option value=and selected=true>AND</option>" +
         "<option value=or>OR</option>" +
         "</select>" +
