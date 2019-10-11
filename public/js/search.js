@@ -77,7 +77,7 @@ $("#search").submit(e => {
 let dropdown = $("#type");
 dropdown.empty();
 dropdown.append(
-    '<option selected="true" disabled>Choose State/Province</option>'
+    '<option selected="true" disabled>Select your choice</option>'
 );
 let valueSearch = "";
 $(document.body).on('change', '.typeFilter', function () {
@@ -137,13 +137,14 @@ $(document.body).on('click', '.addFilter', function () {
         "<option value=option>Option</option>" +
         "</select >" +
         "<select class=criteria>" +
+        "<option>Choose Criteria</option>" +
         "<option value=contains>Contains</option>" +
         "<option value=equal>Is Equal To</option>" +
         "<option value=doesNotContain>Does Not Contain</option>" +
-        "<option value=beginswith>Begins With</option>" +
+
         "</select >" +
         "<select id=type>" +
-        '<option selected="true" disabled>Choose State/Province</option>' +
+        '<option selected="true" disabled>Select your choice</option>' +
         "</select>" +
         "<select id=operator>" +
         "<option value=and selected=true>AND</option>" +
@@ -160,7 +161,8 @@ $("#advancedSearch").click(() => {
     let object;
     // console.log(filters)
     filters.each((_, element) => {
-        if (_ == $(element).siblings().length) {
+
+        if (_ == $(element).siblings().length - 1) {
             object = {
                 "type": $(element).find('.typeFilter').val(),
                 "method": $(element).find('.criteria').val(),
@@ -177,10 +179,12 @@ $("#advancedSearch").click(() => {
         data.push(object);
     })
     $.ajax({
-        method: "GET",
-        data: data,
+        method: "POST",
+        url: "/advancedSearch",
+        data: JSON.stringify(data),
         success: (data) => {
-
+            console.log(data)
         }
     })
+    console.log(data)
 });
