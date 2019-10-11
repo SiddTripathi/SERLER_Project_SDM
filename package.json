@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "nodemon src/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "browserify": "^16.5.0",
     "devextreme": "^19.1.6",
     "express": "^4.17.1",

@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
+const bodyparser = require("body-parser");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -14,6 +15,8 @@ const partialsPath = path.join(__dirname, "../templates/partials");
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
 app.use(express.static(publicDirectoryPath));
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({ extended: true }));
 hbs.registerPartials(partialsPath);
 
 //directories to serve
@@ -93,28 +96,23 @@ app.get("/search", (req, response) => {
       error: "Please enter something to search......"
     });
   }
-    
-    
-    console.log(req);
-  
+
+
+  console.log(req);
+
   var search = req.query.describe; //screen searc bar
-  
+
   // var advSearch = req.query.desctibe;// adv search bar
-  
+
   search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   var searchword = "lower(ai.summary) like '%" + search + "%'";
   searchword = searchword.toLowerCase();
- 
 
 
-var date1 = '1960-01-01';
-var date2 = '2020-12-12';
-//date1=;date2=;
-searchword = '(date between \'' + date1 + '\' and \'' + date2 + '\')';
-console.log(searchword);
 
 
-   
+
+
   let dataset = [];
   console.log(search);
   client.query(
@@ -136,48 +134,125 @@ console.log(searchword);
   );
 });
 
-app.get("/advancedSearch", (req, response) => {
-  
-  console.log(req);
-  
-  var search = req.query.describe; //screen searc bar
-  
+app.post("/advancedSearch", (req, res) => {
+  // let data = JSON.parse(req.body.data);
+  // console.log(req.body.data)
+  var date1 = '1960-01-01';
+  var date2 = '2020-12-12';
+  searchword = '(at.date between \'' + date1 + '\' and \'' + date2 + '\')';
+  console.log(searchword);
+
+  for (let i = 0; i < req.body.data.length; i++) {
+
+
+
+    var a = req.body.data[i].type;
+    var b = req.body.data[i].method;
+    c = req.body.data[i].value.toLowerCase();
+    d = 'and'
+    if (i > 0) { d = req.body.data[i - 1].operator; }
+
+
+    if (b == 'contains') {
+      c1 = d;
+      s1 = a;
+      s2 = 'like';
+      s3 = c;
+      searchword = searchword + ' ' + c1 + ' (ai.' + s1 + ' ' + s2 + ' ' + '\'%' + s3 + '%\')';
+      console.log(searchword)
+    }
+
+    if (b == 'doesNotContain') {
+      c1 = d;
+      s1 = a;
+      s2 = 'not like';
+      s3 = c;
+      searchword = searchword + ' ' + c1 + ' (ai.' + s1 + ' ' + s2 + ' ' + '\'%' + s3 + '%\')';
+    }
+
+    if (b == 'equal') {
+      c1 = d;
+      s1 = a;
+      s2 = '=';
+      s3 = c;
+      searchword = searchword + ' ' + c1 + ' (ai.' + s1 + ' ' + s2 + ' ' + '\'' + s3 + '\')';
+      console.log(searchword);
+      let dataset = [];
+      // console.log(searchword);
+
+    }
+  }
+
+
+
+
+
+
+
+
+  //method like '%'+c+'%'
+  // for (i = 1; i < n; i++) {
+  // searchword = searchword + ' ' + c1 + ' (' + s1 + ' ' + s2 + ' ' + '\'' + s3 + '\')';
+  // console.log(searchwor}
+  // console.log(JSON.parse(req.body.data));
+  // console.log(data)
+  // var search = req.query.describe; //screen searc bar
+
   // var advSearch = req.query.desctibe;// adv search bar
-  
-  search = search.replace(/,/g, "' and lower(ai.summary) like '%");
-  var searchword = "lower(ai.summary) like '%" + search + "%'";
-  searchword = searchword.toLowerCase();
- 
+
+  // search = search.replace(/,/g, "' and lower(ai.summary) like '%");
+  // var searchword = "lower(ai.summary) like '%" + search + "%'";
+  // searchword = searchword.toLowerCase();
 
 
-var date1 = '1960-01-01';
-var date2 = '2020-12-12';
-//date1=;date2=;
-searchword = '(date between \'' + date1 + '\' and \'' + date2 + '\')';
-console.log(searchword);
+
+  // var date1 = '1960-01-01';
+  // var date2 = '2020-12-12';
+  // //date1=;date2=;
+  // searchword = '(date between \'' + date1 + '\' and \'' + date2 + '\')';
+  // console.log(searchword);
 
 
-   
+
+  // let dataset = [];
+  // console.log(search);
+  // client.query(
+  //   "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+  //   searchword +
+  //   " and ai.article_id=at.article_id;",
+  //   (err, res) => {
+  //     if (err) throw err;
+  //     for (let row of res.rows) {
+  //       console.log(typeof row);
+  //       console.log(JSON.stringify(row));
+  //       dataset.push(row);
+  //     }
+  //     // client.end();
+  //     response.send({
+  //       dataset
+  //     });
+  //   }
+  // );
+
   let dataset = [];
-  console.log(search);
+  console.log(searchword);
   client.query(
     "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
     searchword +
     " and ai.article_id=at.article_id;",
-    (err, res) => {
+    (err, data) => {
       if (err) throw err;
-      for (let row of res.rows) {
+      for (let row of data.rows) {
         console.log(typeof row);
         console.log(JSON.stringify(row));
         dataset.push(row);
       }
       // client.end();
-      response.send({
+      res.send({
         dataset
       });
     }
   );
-
 
 
 

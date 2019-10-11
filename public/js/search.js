@@ -157,34 +157,59 @@ $(document.body).on('click', '.addFilter', function () {
 
 $("#advancedSearch").click(() => {
     let filters = $(".filters").find(".f");
-    let data = [];
-    let object;
+    let temp;
+    let object = {
+        "data": []
+    };
     // console.log(filters)
     filters.each((_, element) => {
 
         if (_ == $(element).siblings().length - 1) {
-            object = {
+            temp = {
                 "type": $(element).find('.typeFilter').val(),
                 "method": $(element).find('.criteria').val(),
                 "value": $(element).find('#type').val()
             }
         } else {
-            object = {
+            temp = {
                 "type": $(element).find('.typeFilter').val(),
                 "method": $(element).find('.criteria').val(),
                 "value": $(element).find('#type').val(),
                 "operator": $(element).find("#operator").val(),
             }
         }
-        data.push(object);
+        object.data.push(temp);
     })
     $.ajax({
         method: "POST",
         url: "/advancedSearch",
-        data: JSON.stringify(data),
+        data: object,
         success: (data) => {
-            console.log(data)
+            data = data.dataset;
+            $("#errorResult").html("");
+            let str = "";
+            data.forEach(d => {
+                str +=
+                    "<tr>" +
+                    "<td>" +
+                    d.title +
+                    "</td>" +
+                    "<td>" +
+                    d.author +
+                    "</td>" +
+                    "<td>" +
+                    d.journal_name +
+                    "</td>" +
+                    "<td>" +
+                    new Date(d.date) +
+                    "</td>" +
+                    "<td>" +
+                    d.weblink +
+                    "</td>" +
+                    "</tr>";
+            });
+            $("#tbody").html(str);
+            $("#answer").show();
         }
     })
-    console.log(data)
 });
