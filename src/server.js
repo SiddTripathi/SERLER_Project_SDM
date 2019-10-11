@@ -93,11 +93,28 @@ app.get("/search", (req, response) => {
       error: "Please enter something to search......"
     });
   }
-
+    
+    
+    console.log(req);
+  
   var search = req.query.describe; //screen searc bar
+  
+  // var advSearch = req.query.desctibe;// adv search bar
+  
   search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   var searchword = "lower(ai.summary) like '%" + search + "%'";
   searchword = searchword.toLowerCase();
+ 
+
+
+var date1 = '1960-01-01';
+var date2 = '2020-12-12';
+//date1=;date2=;
+searchword = '(date between \'' + date1 + '\' and \'' + date2 + '\')';
+console.log(searchword);
+
+
+   
   let dataset = [];
   console.log(search);
   client.query(
@@ -118,6 +135,56 @@ app.get("/search", (req, response) => {
     }
   );
 });
+
+app.get("/advancedSearch", (req, response) => {
+  
+  console.log(req);
+  
+  var search = req.query.describe; //screen searc bar
+  
+  // var advSearch = req.query.desctibe;// adv search bar
+  
+  search = search.replace(/,/g, "' and lower(ai.summary) like '%");
+  var searchword = "lower(ai.summary) like '%" + search + "%'";
+  searchword = searchword.toLowerCase();
+ 
+
+
+var date1 = '1960-01-01';
+var date2 = '2020-12-12';
+//date1=;date2=;
+searchword = '(date between \'' + date1 + '\' and \'' + date2 + '\')';
+console.log(searchword);
+
+
+   
+  let dataset = [];
+  console.log(search);
+  client.query(
+    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+    searchword +
+    " and ai.article_id=at.article_id;",
+    (err, res) => {
+      if (err) throw err;
+      for (let row of res.rows) {
+        console.log(typeof row);
+        console.log(JSON.stringify(row));
+        dataset.push(row);
+      }
+      // client.end();
+      response.send({
+        dataset
+      });
+    }
+  );
+
+
+
+
+
+
+});
+
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);
