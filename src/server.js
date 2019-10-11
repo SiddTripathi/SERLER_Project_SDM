@@ -95,8 +95,8 @@ app.get("/search", (req, response) => {
   }
 
   var search = req.query.describe; //screen searc bar
-  search = search.replace(/,/g, "' and lower(summary) like '%");
-  var searchword = "lower(summary) like '%" + search + "%'";
+  search = search.replace(/,/g, "' and lower(ai.summary) like '%");
+  var searchword = "lower(ai.summary) like '%" + search + "%'";
   searchword = searchword.toLowerCase();
   let dataset = [];
   console.log(search);
