@@ -33,32 +33,154 @@
 // });
 
 $("#search").submit(e => {
-  e.preventDefault();
-  let searchText = $("#searchTerm").val();
-  $.ajax({
-    method: "GET",
-    url: `/search?describe=${searchText}`,
-    success: data => {
-      if (!data.dataset) {
-        $("#errorResult").html("Results:" + data.error);
-        $("#results").show();
-      } else {
-        data = data.dataset;
-        let str = "";
-        data.forEach(d => {
-          str +=
-            "<tr>" +
-            "<td>" +
-            d.article_id +
-            "</td>" +
-            "<td>" +
-            d.research_ques +
-            "</td>" +
-            "</tr>";
+    e.preventDefault();
+    let searchText = $("#searchTerm").val();
+    $.ajax({
+        method: "GET",
+        url: `/search?describe=${searchText} &`,
+        success: data => {
+            console.log(data)
+            if (!data.dataset) {
+                $("#errorResult").html("Results:" + data.error);
+                $("#results").show();
+            } else {
+                data = data.dataset;
+                $("#errorResult").html("");
+                let str = "";
+                data.forEach(d => {
+                    str +=
+                        "<tr>" +
+                        "<td>" +
+                        d.title +
+                        "</td>" +
+                        "<td>" +
+                        d.author +
+                        "</td>" +
+                        "<td>" +
+                        d.journal_name +
+                        "</td>" +
+                        "<td>" +
+                        new Date(d.date) +
+                        "</td>" +
+                        "<td>" +
+                        d.weblink +
+                        "</td>" +
+                        "</tr>";
+                });
+                $("#tbody").html(str);
+                $("#answer").show();
+            }
+        }
+    });
+});
+
+let dropdown = $("#type");
+dropdown.empty();
+dropdown.append(
+    '<option selected="true" disabled>Choose State/Province</option>'
+);
+let valueSearch = "";
+$(document.body).on('change', '.typeFilter', function () {
+    valueSearch = $(this).val();
+    console.log(valueSearch);
+    dropdown = $(this).parent().find('#type');
+    if ((valueSearch === "method")) {
+        $.getJSON("js/method.json", function (data) {
+            dropdown.empty();
+            $.each(data, function (key, entry) {
+                dropdown.append(
+                    $("<option></option>")
+                        .attr("value", entry.method)
+                        .text(entry.method)
+                );
+            });
         });
-        $("#tbody").html(str);
-        $("#answer").show();
-      }
+    } else if ((valueSearch === "participant")) {
+        $.getJSON("js/participant.json", function (data1) {
+            dropdown.empty();
+
+            $.each(data1, function (key, entry) {
+
+                dropdown.append(
+                    $("<option></option>")
+                        .attr("value", entry.participant)
+                        .text(entry.participant)
+                );
+            });
+        });
+    } else if ((valueSearch === "benefit")) {
+        $.getJSON("js/benefit.json", function (data2) {
+            dropdown.empty();
+
+            $.each(data2, function (key, entry) {
+
+                dropdown.append(
+                    $("<option></option>")
+                        .attr("value", entry.benefit)
+                        .text(entry.benefit)
+                );
+            });
+        });
     }
-  });
+});
+
+$(document.body).on('click', '.addFilter', function () {
+    // let cls = $(this).parent().attr('class');
+    // console.log(cls)
+    // let new_cls = 'f' + (parseInt(cls.substring(cls.length - 1)) + 1);
+    // console.log(new_cls)
+    $(".filters").append("<div class=f><select id='typeFilter' class=typeFilter>" +
+        "<option>Choose a filter</option>" +
+        "<option value = method>Method</option>" +
+        "<option value = participant >Participant</option>" +
+        "<option value = benefit> Benefit</option >" +
+        "<option value=option>Option</option>" +
+        "</select >" +
+        "<select class=criteria>" +
+        "<option value=contains>Contains</option>" +
+        "<option value=equal>Is Equal To</option>" +
+        "<option value=doesNotContain>Does Not Contain</option>" +
+        "<option value=beginswith>Begins With</option>" +
+        "</select >" +
+        "<select id=type>" +
+        '<option selected="true" disabled>Choose State/Province</option>' +
+        "</select>" +
+        "<select id=operator>" +
+        "<option value=and selected=true>AND</option>" +
+        "<option value=or>OR</option>" +
+        "</select>" +
+        " <button type=submit class=addFilter>" +
+        "<span class='glyphicon glyphicon-plus'></span> Add" +
+        "</button></div>");
+})
+
+$("#advancedSearch").click(() => {
+    let filters = $(".filters").find(".f");
+    let data = [];
+    let object;
+    // console.log(filters)
+    filters.each((_, element) => {
+        if (_ == $(element).siblings().length) {
+            object = {
+                "type": $(element).find('.typeFilter').val(),
+                "method": $(element).find('.criteria').val(),
+                "value": $(element).find('#type').val()
+            }
+        } else {
+            object = {
+                "type": $(element).find('.typeFilter').val(),
+                "method": $(element).find('.criteria').val(),
+                "value": $(element).find('#type').val(),
+                "operator": $(element).find("#operator").val(),
+            }
+        }
+        data.push(object);
+    })
+    $.ajax({
+        method: "GET",
+        data: data,
+        success: (data) => {
+
+        }
+    })
 });

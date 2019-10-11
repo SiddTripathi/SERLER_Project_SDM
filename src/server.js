@@ -88,27 +88,22 @@ client.connect().then(() => console.log("connected"));
 // };
 
 app.get("/search", (req, response) => {
-  if (!req.query.describe) {
+  if (req.query.describe.trim() == "") {
     return response.send({
       error: "Please enter something to search......"
     });
   }
 
   var search = req.query.describe; //screen searc bar
-<<<<<<< HEAD
-  search = search.replace(/,/g, "' and lower(ai.summary) like '%");
-  var searchword = "lower(ai.summary) like '%" + search + "%'";
-  searchword=searchword.toLowerCase();
-  let dataset;
-=======
   search = search.replace(/,/g, "' and lower(summary) like '%");
   var searchword = "lower(summary) like '%" + search + "%'";
   searchword = searchword.toLowerCase();
   let dataset = [];
->>>>>>> 31e02ab42429f650fe0120411328f64c17247742
   console.log(search);
   client.query(
-    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " + searchword + " and ai.article_id=at.article_id;",
+    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+    searchword +
+    " and ai.article_id=at.article_id;",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
@@ -120,7 +115,6 @@ app.get("/search", (req, response) => {
       response.send({
         dataset
       });
-      response.render();
     }
   );
 });

@@ -5,6 +5,8 @@
 <head>
   <link rel="stylesheet" href="/style/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
   <style>
     .background {
       width: 100%;
@@ -23,6 +25,11 @@
       color: #6E9DDE;
       margin-left: auto;
       margin-right: auto;
+
+    }
+
+    .filters {
+      padding-top: 20px;
 
     }
 
@@ -86,13 +93,16 @@
       border: 1px solid #dddddd;
       text-align: left;
       padding: 8px;
-      color: blanchedalmond
+      color: #6E9DDE;
     }
   </style>
 </head>
 
 <body>
-  {{>header}}
+  <div>
+    {{>header}}
+  </div>
+
   <div>
     <img class="background" src="img/sample.jpg" />
     <div class="wrap">
@@ -104,26 +114,56 @@
       <div class="search">
         <form class="search" id="search">
           <input type="text" class="searchTerm" id="searchTerm" placeholder="Find the practice that works for you">
-          <button type="submit" class="searchButton" onclick="myFunction()">
+          <button type="submit" class="searchButton">
             <i class="fa fa-search"></i>
           </button>
         </form>
       </div>
 
+      <div class="filters">
+        <h4 style="color:#6E9DDE">Advanced Search</h4>
+        <div class='f'>
+          <select id='typeFilter' class="typeFilter">
+            <option>Choose a filter</option>
+            <option value="method">Method</option>
+            <option value="participant">Participant</option>
+            <option value="benefit">Benefit</option>
+            <option value="option">Option</option>
+          </select>
+          <select class="criteria">
+            <option value="contains">Contains</option>
+            <option value="equal">Is Equal To</option>
+            <option value="doesNotContain">Does Not Contain</option>
+            <option value="beginswith">Begins With</option>
+          </select>
+          <select id="type">
+          </select>
+          <select id="operator">
+            <option value="and" selected="true">AND</option>
+            <option value="or">OR</option>
+
+          </select>
+          <button type="submit" class="addFilter">
+            <span class="glyphicon glyphicon-plus"></span> Add
+          </button>
+        </div>
+      </div>
       <div>
-        <p id="message-1" style="color: blanchedalmond"></p>
-        <p id="message-2" style="color: blanchedalmond"></p>
-        <p id="message-3" style="color: blanchedalmond"></p>
+        <button class="advancedSearch" id="advancedSearch">
+          <span class="glyphicon glyphicon-search"></span>Advanced Search
+        </button>
       </div>
       <div id="results" style="display: none">
         <h2 style="color:blanchedalmond" id="errorResult"></h2>
       </div>
-      <div>
+      <div style="padding-top: 20px">
         <table id="answer" style="display: none;">
           <tr>
-            <th>Article ID</th>
-            <th>Research question</th>
-            {{!-- <th>Benefit</th> --}}
+            <th>Title</th>
+            <th>Author</th>
+            <th>Journal Name</th>
+            <th>Date</th>
+            <th>Weblink</th>
           </tr>
           <tbody id="tbody">
 
@@ -136,18 +176,6 @@
   {{>footer}}
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/js/search.js"></script>
-
-
-  {{!-- <script>
-    function myFunction() {
-      var x = document.getElementById("results");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
-    }
-  </script> --}}
 
 
 </body>
