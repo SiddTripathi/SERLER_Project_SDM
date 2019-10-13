@@ -237,9 +237,9 @@ app.post("/advancedSearch", (req, res) => {
   let dataset = [];
   console.log(searchword);
   client.query(
-    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
     searchword +
-    " and ai.article_id=at.article_id;",
+    ") and ai.article_id=at.article_id;",
     (err, data) => {
       if (err) throw err;
       for (let row of data.rows) {
