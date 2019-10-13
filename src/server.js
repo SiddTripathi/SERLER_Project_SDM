@@ -106,8 +106,9 @@ app.get("/search", (req, response) => {
 
   search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   var searchword = "lower(ai.summary) like '%" + search + "%'";
+  //searchword = searchword+" or (lower(at.title) like '%"+search+"%')"; 
   searchword = searchword.toLowerCase();
-
+console.log(searchword);
 
 
 
@@ -116,9 +117,9 @@ app.get("/search", (req, response) => {
   let dataset = [];
   console.log(search);
   client.query(
-    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
     searchword +
-    " and ai.article_id=at.article_id;",
+    ") and ai.article_id=at.article_id;",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
