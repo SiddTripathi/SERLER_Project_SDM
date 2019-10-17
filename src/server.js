@@ -104,8 +104,9 @@ app.get("/search", (req, response) => {
   var date1 = req.query.start;
   var date2 = req.query.endDate;  // var advSearch = req.query.desctibe;// adv search bar
   console.log("a"+date1+"a")
-  if(date1==''){date1='1960-01-01'}
-  if(date==''){date2='2020-01-01'}
+  if(!date1){date1='1960-01-01'}
+  if(!date2){date2='2020-01-01'}
+
   search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   var searchword = "lower(ai.summary) like '%" + search + "%'";
   //searchword = searchword+" or (lower(at.title) like '%"+search+"%')"; 
