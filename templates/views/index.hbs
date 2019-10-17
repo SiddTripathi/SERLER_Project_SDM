@@ -120,6 +120,11 @@
       transform: translate(-50%, -50%);
     }
 
+    .advanced {
+      color: #6E9DDE;
+      font-size: 10;
+    }
+
     .homeImage {
       display: block;
       margin-left: auto;
@@ -172,7 +177,7 @@
 
         </div>
       </form>
-      <div class="filters">
+      {{!-- <div class="filters">
         <h4 style="color:#6E9DDE">Advanced Search</h4>
         <div class='f'>
           <select id='typeFilter' class="typeFilter">
@@ -201,11 +206,11 @@
             <span class="glyphicon glyphicon-plus"></span> Add
           </button>
         </div>
-      </div>
-      <div>
-        <button class="advancedSearch" id="advancedSearch">
-          <span class="glyphicon glyphicon-search"></span>Advanced Search
-        </button>
+      </div> --}}
+      <div class="advanced">
+        <a href="/advanced">
+          <h3>Click Here for Advanced Search</h3>
+        </a>
       </div>
       <div id="results" style="display: none">
         <h2 style="color:blanchedalmond" id="errorResult"></h2>

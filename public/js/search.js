@@ -37,44 +37,48 @@ $("#search").submit(e => {
     let searchT = $("#searchTerm").val();
     let fromD = $('#dateFrom').val();
     let toD = $('#dateTo').val();
+    if (fromD < toD) {
+        $.ajax({
+            method: "GET",
+            url: `/search?describe=${searchT} &start=${fromD} &endDate=${toD}`,
+            success: data => {
 
-    $.ajax({
-        method: "GET",
-        url: `/search?describe=${searchT} &start=${fromD} &endDate=${toD}`,
-        success: data => {
-
-            if (!data.dataset) {
-                $("#errorResult").html("Results:" + data.error);
-                $("#results").show();
-            } else {
-                data = data.dataset;
-                $("#errorResult").html("");
-                let str = "";
-                data.forEach(d => {
-                    str +=
-                        "<tr>" +
-                        "<td>" +
-                        d.title +
-                        "</td>" +
-                        "<td>" +
-                        d.author +
-                        "</td>" +
-                        "<td>" +
-                        d.journal_name +
-                        "</td>" +
-                        "<td>" +
-                        new Date(d.date) +
-                        "</td>" +
-                        "<td>" +
-                        d.weblink +
-                        "</td>" +
-                        "</tr>";
-                });
-                $("#tbody").html(str);
-                $("#answer").show();
+                if (!data.dataset) {
+                    $("#errorResult").html("Results:" + data.error);
+                    $("#results").show();
+                } else {
+                    data = data.dataset;
+                    $("#errorResult").html("");
+                    let str = "";
+                    data.forEach(d => {
+                        str +=
+                            "<tr>" +
+                            "<td>" +
+                            d.title +
+                            "</td>" +
+                            "<td>" +
+                            d.author +
+                            "</td>" +
+                            "<td>" +
+                            d.journal_name +
+                            "</td>" +
+                            "<td>" +
+                            new Date(d.date) +
+                            "</td>" +
+                            "<td>" +
+                            d.weblink +
+                            "</td>" +
+                            "</tr>";
+                    });
+                    $("#tbody").html(str);
+                    $("#answer").show();
+                }
             }
-        }
-    });
+        });
+    } else {
+        $("#errorResult").html("Error: Date Range is not correct");
+        $("#results").show();
+    }
 });
 
 let dropdown = $("#type");

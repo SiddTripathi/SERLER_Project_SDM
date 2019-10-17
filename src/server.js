@@ -23,7 +23,9 @@ hbs.registerPartials(partialsPath);
 app.get("", (req, res) => {
   res.render("index");
 });
-
+app.get("/advanced", (req, res) => {
+  res.render("advanced")
+});
 app.get("/about", (req, res) => {
   res.render("about", {
     title: "The About page",
