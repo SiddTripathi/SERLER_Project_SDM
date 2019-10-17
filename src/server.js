@@ -101,14 +101,17 @@ app.get("/search", (req, response) => {
   console.log(req);
 
   var search = req.query.describe; //screen searc bar
-
+  var startDate = req.query.start;
+  console.log(startDate)
+  var endDate = req.query.endDate;
+  console.log(endDate)
   // var advSearch = req.query.desctibe;// adv search bar
 
   search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   var searchword = "lower(ai.summary) like '%" + search + "%'";
   //searchword = searchword+" or (lower(at.title) like '%"+search+"%')"; 
   searchword = searchword.toLowerCase();
-console.log(searchword);
+  console.log(searchword);
 
 
 

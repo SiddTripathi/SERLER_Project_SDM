@@ -34,12 +34,15 @@
 
 $("#search").submit(e => {
     e.preventDefault();
-    let searchText = $("#searchTerm").val();
+    let searchT = $("#searchTerm").val();
+    let fromD = $('#dateFrom').val();
+    let toD = $('#dateTo').val();
+
     $.ajax({
         method: "GET",
-        url: `/search?describe=${searchText} &`,
+        url: `/search?describe=${searchT} &start=${fromD} &endDate=${toD}`,
         success: data => {
-            console.log(data)
+
             if (!data.dataset) {
                 $("#errorResult").html("Results:" + data.error);
                 $("#results").show();
