@@ -40,7 +40,7 @@ $("#search").submit(e => {
     if (fromD < toD) {
         $.ajax({
             method: "GET",
-            url: `/search?describe=${searchT} &start=${fromD} &endDate=${toD}`,
+            url: `/search?describe=${searchT}&start=${fromD}&endDate=${toD}`,
             success: data => {
 
                 if (!data.dataset) {
