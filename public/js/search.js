@@ -37,10 +37,10 @@ $("#search").submit(e => {
     let searchT = $("#searchTerm").val();
     let fromD = $('#dateFrom').val();
     let toD = $('#dateTo').val();
-
+ 
     $.ajax({
         method: "GET",
-        url: `/search?describe=${searchT} &start=${fromD} &endDate=${toD}`,
+        url: `/search?describe=${searchT}&start=${fromD}&endDate=${toD}`,
         success: data => {
 
             if (!data.dataset) {

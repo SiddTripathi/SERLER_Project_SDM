@@ -98,15 +98,14 @@ app.get("/search", (req, response) => {
   }
 
 
-  console.log(req);
+  
 
   var search = req.query.describe; //screen searc bar
-  var startDate = req.query.start;
-  console.log(startDate)
-  var endDate = req.query.endDate;
-  console.log(endDate)
-  // var advSearch = req.query.desctibe;// adv search bar
-
+  var date1 = req.query.start;
+  var date2 = req.query.endDate;  // var advSearch = req.query.desctibe;// adv search bar
+  console.log("a"+date1+"a")
+  if(date1==''){date1='1960-01-01'}
+  if(date==''){date2='2020-01-01'}
   search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   var searchword = "lower(ai.summary) like '%" + search + "%'";
   //searchword = searchword+" or (lower(at.title) like '%"+search+"%')"; 
@@ -116,13 +115,15 @@ app.get("/search", (req, response) => {
 
 
 
-
+  console.log("and (at.date between '"+date1+" and "+date2+") ;");
   let dataset = [];
-  console.log(search);
+  console.log("SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
+  searchword +
+  ") and ai.article_id=at.article_id and (at.date between '" + date1 +"\' and \'" + date2 + "');");
   client.query(
     "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
     searchword +
-    ") and ai.article_id=at.article_id;",
+    ") and ai.article_id=at.article_id and (at.date between '"+ date1 +"' and '" + date2 + "');",
     (err, res) => {
       if (err) throw err;
       for (let row of res.rows) {
