@@ -19,6 +19,12 @@
     "pg": "^7.12.1"
   },
   "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-react": "*",
+    "@babel/preset-typescript": "*",
+    "@types/jest": "*",
+    "babel-jest": "*",
     "jest": "^24.9.0"
   }
 }
