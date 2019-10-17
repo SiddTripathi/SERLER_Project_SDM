@@ -37,7 +37,7 @@ $("#search").submit(e => {
     let searchT = $("#searchTerm").val();
     let fromD = $('#dateFrom').val();
     let toD = $('#dateTo').val();
-    if (fromD < toD) {
+    if ((fromD < toD) || (!fromD) || (!toD) || (fromD === toD)) {
         $.ajax({
             method: "GET",
             url: `/search?describe=${searchT}&start=${fromD}&endDate=${toD}`,
