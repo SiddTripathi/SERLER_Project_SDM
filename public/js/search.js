@@ -171,20 +171,24 @@ $("#advancedSearch").click(() => {
     // console.log(filters)
     filters.each((_, element) => {
 
-        if (_ == $(element).siblings().length - 1) {
+        // if (_ == $(element).siblings().length - 1) {
+        //     temp = {
+        //         "date1" :$('#dateFrom').val(),
+        //         "date2" :$('#dateTo').val(),
+        //         "type": $(element).find('.typeFilter').val(),
+        //         "method": $(element).find('.criteria').val(),
+        //         "value": $(element).find('#type').val()
+        //     }
+        // } else {
             temp = {
-                "type": $(element).find('.typeFilter').val(),
-                "method": $(element).find('.criteria').val(),
-                "value": $(element).find('#type').val()
-            }
-        } else {
-            temp = {
+                "date1" :$('#dateFrom').val(),
+                "date2" :$('#dateTo').val(),
                 "type": $(element).find('.typeFilter').val(),
                 "method": $(element).find('.criteria').val(),
                 "value": $(element).find('#type').val(),
                 "operator": $(element).find("#operator").val(),
             }
-        }
+        
         object.data.push(temp);
     })
     $.ajax({

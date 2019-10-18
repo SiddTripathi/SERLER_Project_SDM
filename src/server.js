@@ -147,18 +147,24 @@ app.post("/advancedSearch", (req, res) => {
   // console.log(req.body.data)
   var date1 = '1960-01-01';
   var date2 = '2020-12-12';
-  searchword = '(at.date between \'' + date1 + '\' and \'' + date2 + '\')';
-  console.log(searchword);
+  if(req.body.data[0].date1){date1=req.body.data[0].date1;};
+  if(req.body.data[0].date2){date2=req.body.data[0].date2};
 
+  
+ 
+
+let searchword='';
+  
+console.log(req.body.data[0].operator)
   for (let i = 0; i < req.body.data.length; i++) {
-
 
 
     var a = req.body.data[i].type;
     var b = req.body.data[i].method;
     c = req.body.data[i].value.toLowerCase();
-    d = 'and'
-    if (i > 0) { d = req.body.data[i - 1].operator; }
+    d = '('
+    if (i > 0) { d = req.body.data[i-1].operator+' '; }
+    console.log(d)
 
 
     if (b == 'contains') {
@@ -166,8 +172,8 @@ app.post("/advancedSearch", (req, res) => {
       s1 = a;
       s2 = 'like';
       s3 = c;
-      searchword = searchword + ' ' + c1 + ' (ai.' + s1 + ' ' + s2 + ' ' + '\'%' + s3 + '%\')';
-      console.log(searchword)
+      searchword = searchword + ' ' + c1 + '(ai.' + s1 + ' ' + s2 + ' ' + '\'%' + s3 + '%\')';
+    console.log(searchword)
     }
 
     if (b == 'doesNotContain') {
@@ -175,7 +181,7 @@ app.post("/advancedSearch", (req, res) => {
       s1 = a;
       s2 = 'not like';
       s3 = c;
-      searchword = searchword + ' ' + c1 + ' (ai.' + s1 + ' ' + s2 + ' ' + '\'%' + s3 + '%\')';
+      searchword = searchword + ' ' + c1 + '(ai.' + s1 + ' ' + s2 + ' ' + '\'%' + s3 + '%\')';
     }
 
     if (b == 'equal') {
@@ -183,8 +189,8 @@ app.post("/advancedSearch", (req, res) => {
       s1 = a;
       s2 = '=';
       s3 = c;
-      searchword = searchword + ' ' + c1 + ' (ai.' + s1 + ' ' + s2 + ' ' + '\'' + s3 + '\')';
-      console.log(searchword);
+      searchword = searchword + ' ' + c1 + '(ai.' + s1 + ' ' + s2 + ' ' + '\'' + s3 + '\')';
+ 
       let dataset = [];
       // console.log(searchword);
 
@@ -242,12 +248,20 @@ app.post("/advancedSearch", (req, res) => {
   //   }
   // );
 
+if(searchword===''){searchword='(at.date between \'' + date1 + '\' and \'' + date2 + '\')'}
+else{searchword='(at.date between \'' + date1 + '\' and \'' + date2 + '\') and'+searchword+')'}
+
+console.log("SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+searchword +
+" and ai.article_id=at.article_id;");
+
+searchword="SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+searchword +
+" and ai.article_id=at.article_id;";
   let dataset = [];
-  console.log(searchword);
+ 
   client.query(
-    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
-    searchword +
-    ") and ai.article_id=at.article_id;",
+    searchword,
     (err, data) => {
       if (err) throw err;
       for (let row of data.rows) {
