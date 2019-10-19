@@ -5,6 +5,8 @@
 <head>
   <link rel="stylesheet" href="/style/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
   <style>
     .background {
       width: 100%;
@@ -26,6 +28,11 @@
 
     }
 
+    .filters {
+      padding-top: 20px;
+
+    }
+
     .search {
       width: 100%;
       position: relative;
@@ -38,6 +45,52 @@
       border-right: none;
       padding: 5px;
       border-radius: 5px 0 0 5px;
+      outline: none;
+      color: #425e85;
+    }
+
+    .typeFilter {
+      border: 3px solid #6E9DDE;
+
+      padding: 5px;
+      border-radius: 5px 5px 5px 5px;
+      outline: none;
+      color: #425e85;
+    }
+
+    .criteria {
+      border: 3px solid #6E9DDE;
+
+      padding: 5px;
+      border-radius: 5px 5px 5px 5px;
+      outline: none;
+      color: #425e85;
+    }
+
+
+    .type {
+      border: 3px solid #6E9DDE;
+
+      padding: 5px;
+      border-radius: 5px 5px 5px 5px;
+      outline: none;
+      color: #425e85;
+    }
+
+    .operator {
+      border: 3px solid #6E9DDE;
+
+      padding: 5px;
+      border-radius: 5px 5px 5px 5px;
+      outline: none;
+      color: #425e85;
+    }
+
+    .addFilter {
+      border: 3px solid #6E9DDE;
+
+      padding: 5px;
+      border-radius: 5px 5px 5px 5px;
       outline: none;
       color: #425e85;
     }
@@ -67,6 +120,11 @@
       transform: translate(-50%, -50%);
     }
 
+    .advanced {
+      color: #6E9DDE;
+      font-size: 10;
+    }
+
     .homeImage {
       display: block;
       margin-left: auto;
@@ -86,70 +144,100 @@
       border: 1px solid #dddddd;
       text-align: left;
       padding: 8px;
-      color: blanchedalmond
+      color: #6E9DDE;
     }
   </style>
 </head>
 
 <body>
-  {{>header}}
+  <div>
+    {{>header}}
+  </div>
+
   <div>
     <img class="background" src="img/sample.jpg" />
     <div class="wrap">
       <img class="homeImage" src="img/serler icon v3 _300px.png" />
 
-      <h1 class="heading"> Making software engineer decision based on evidence</h1>
+      <h1 class="heading"> Making Software Engineer Decision Based on Evidence</h1>
+      <form id="search">
+        <div class="heading">
+          From: <br>
+          <input type="date" id="dateFrom"><br><br>
+          To:<br>
+          <input type="date" id="dateTo"><br><br>
+        </div>
+        <div class="search">
 
-
-      <div class="search">
-        <form class="search">
-          <input type="text" class="searchTerm" placeholder="Find the practice that works for you">
-          <button type="submit" class="searchButton" onclick="myFunction()">
+          <input type="text" class="searchTerm" id="searchTerm" placeholder="Find the practice that works for you">
+          <button type="submit" class="searchButton">
             <i class="fa fa-search"></i>
           </button>
-        </form>
-      </div>
 
-      <div>
-        <p id="message-1" style="color: blanchedalmond"></p>
-        <p id="message-2" style="color: blanchedalmond"></p>
-        <p id="message-3" style="color: blanchedalmond"></p>
+
+        </div>
+      </form>
+      {{!-- <div class="filters">
+        <h4 style="color:#6E9DDE">Advanced Search</h4>
+        <div class='f'>
+          <select id='typeFilter' class="typeFilter">
+            <option>Choose a filter</option>
+            <option value="method">Method</option>
+            <option value="participant">Participant</option>
+            <option value="benefit">Benefit</option>
+            <option value="option">Option</option>
+          </select>
+          <select class="criteria">
+            <option>Choose criteria</option>
+            <option value="contains">Contains</option>
+            <option value="equal">Is Equal To</option>
+            <option value="doesNotContain">Does Not Contain</option>
+
+          </select>
+          <select class="type" id="type">
+          </select>
+          <select class="operator" id="operator">
+
+            <option value="and" selected="true">AND</option>
+            <option value="or">OR</option>
+
+          </select>
+          <button type="submit" class="addFilter">
+            <span class="glyphicon glyphicon-plus"></span> Add
+          </button>
+        </div>
+      </div> --}}
+      <div class="advanced">
+        <a href="/advanced">
+          <h3>Click Here for Advanced Search</h3>
+        </a>
       </div>
       <div id="results" style="display: none">
-        <h2 style="color:blanchedalmond">Result</h2>
+        <h2 style="color:blanchedalmond" id="errorResult"></h2>
+      </div>
+      <div style="padding-top: 20px">
+        <table id="answer" style="display: none;">
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Journal Name</th>
+            <th>Date</th>
+            <th>Research Question</th>
+            <th>Method</th>
+            <th>Weblink</th>
 
-        <table>
-          <tr>
-            <th>Article ID</th>
-            <th>Research question</th>
-            <th>Benefit</th>
           </tr>
-          <tr>
-            <td id="article"></td>
-            <td id="research-ques"></td>
-            <td id="benefit"></td>
-            <td></td>
-          </tr>
+          <tbody id="tbody">
+
+          </tbody>
         </table>
 
       </div>
     </div>
   </div>
   {{>footer}}
-  <script src="/js/search.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-
-  <script>
-    function myFunction() {
-      var x = document.getElementById("results");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
-    }
-  </script>
+  <script src="/js/search.js"></script>
 
 
 </body>
