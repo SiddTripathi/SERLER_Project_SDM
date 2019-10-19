@@ -51,6 +51,7 @@ $("#search").submit(e => {
                     $("#errorResult").html("");
                     let str = "";
                     data.forEach(d => {
+
                         str +=
                             "<tr>" +
                             "<td>" +
@@ -63,7 +64,13 @@ $("#search").submit(e => {
                             d.journal_name +
                             "</td>" +
                             "<td>" +
-                            new Date(d.date) +
+                            d.date +
+                            "</td>" +
+                            "<td>" +
+                            d.research_ques +
+                            "</td>" +
+                            "<td>" +
+                            d.method +
                             "</td>" +
                             "<td>" +
                             d.weblink +
@@ -180,15 +187,15 @@ $("#advancedSearch").click(() => {
         //         "value": $(element).find('#type').val()
         //     }
         // } else {
-            temp = {
-                "date1" :$('#dateFrom').val(),
-                "date2" :$('#dateTo').val(),
-                "type": $(element).find('.typeFilter').val(),
-                "method": $(element).find('.criteria').val(),
-                "value": $(element).find('#type').val(),
-                "operator": $(element).find("#operator").val(),
-            }
-        
+        temp = {
+            "date1": $('#dateFrom').val(),
+            "date2": $('#dateTo').val(),
+            "type": $(element).find('.typeFilter').val(),
+            "method": $(element).find('.criteria').val(),
+            "value": $(element).find('#type').val(),
+            "operator": $(element).find("#operator").val(),
+        }
+
         object.data.push(temp);
     })
     $.ajax({
@@ -212,7 +219,13 @@ $("#advancedSearch").click(() => {
                     d.journal_name +
                     "</td>" +
                     "<td>" +
-                    new Date(d.date) +
+                    d.date +
+                    "</td>" +
+                    "<td>" +
+                    d.research_ques +
+                    "</td>" +
+                    "<td>" +
+                    d.method +
                     "</td>" +
                     "<td>" +
                     d.weblink +

@@ -124,7 +124,7 @@ app.get("/search", (req, response) => {
   searchword +
   ") and ai.article_id=at.article_id and (at.date between '" + date1 +"\' and \'" + date2 + "');");
   client.query(
-    "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
+    "SELECT at.title,at.author,at.journal_name,to_char(at.date,'YYYY-MM') as date,at.weblink,ai.research_ques,ai.method FROM article_info ai,article_table at where (" +
     searchword +
     ") and ai.article_id=at.article_id and (at.date between '"+ date1 +"' and '" + date2 + "');",
     (err, res) => {
@@ -251,11 +251,11 @@ console.log(req.body.data[0].operator)
 if(searchword===''){searchword='(at.date between \'' + date1 + '\' and \'' + date2 + '\')'}
 else{searchword='(at.date between \'' + date1 + '\' and \'' + date2 + '\') and'+searchword+')'}
 
-console.log("SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+console.log("SELECT at.title,at.author,at.journal_name,to_char(at.date,'YYYY-MM') as date,at.weblink FROM article_info ai,article_table at where " +
 searchword +
 " and ai.article_id=at.article_id;");
 
-searchword="SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where " +
+searchword="SELECT at.title,at.author,at.journal_name,at.date,at.weblink,ai.research_ques,ai.method,ai.benefits FROM article_info ai,article_table at where " +
 searchword +
 " and ai.article_id=at.article_id;";
   let dataset = [];
