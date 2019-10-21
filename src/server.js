@@ -255,7 +255,7 @@ console.log("SELECT at.title,at.author,at.journal_name,to_char(at.date,'YYYY-MM'
 searchword +
 " and ai.article_id=at.article_id;");
 
-searchword="SELECT at.title,at.author,at.journal_name,at.date,at.weblink,ai.research_ques,ai.method,ai.benefits FROM article_info ai,article_table at where " +
+searchword="SELECT at.title,at.author,at.journal_name,at.date,at.weblink,ai.research_ques,ai.method,ai.benefit FROM article_info ai,article_table at where " +
 searchword +
 " and ai.article_id=at.article_id;";
   let dataset = [];
