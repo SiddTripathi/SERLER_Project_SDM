@@ -23,17 +23,19 @@
 
     .h2 {
       display: block;
-     
+
       color: #6E9DDE;
     }
 
-    .h3,h3 {
-      padding-left:25%;
+    .h3,
+    h3 {
+      padding-left: 25%;
       color: #6E9DDE;
     }
 
-    .h3,h3:hover {
-      padding-left:25%;
+    .h3,
+    h3:hover {
+      padding-left: 25%;
       color: rgb(120, 206, 240);
     }
 
@@ -41,7 +43,7 @@
       color: #6E9DDE;
       margin-left: auto;
       margin-right: auto;
-      
+
     }
 
     .heading2 {
@@ -82,10 +84,10 @@
       border-radius: 5px 0 0 5px;
       outline: none;
       color: #425e85;
-    
+
     }
 
-    
+
 
     .typeFilter {
       border: 3px solid #6E9DDE;
@@ -178,6 +180,10 @@
 
     }
 
+    th {
+      cursor: pointer;
+    }
+
     td,
     th {
       border: 1px solid #dddddd;
@@ -203,7 +209,7 @@
       <br>
       <br>
       <form id="search">
-        
+
         <div class="search">
 
           <input type="text" class="searchTerm" id="searchTerm" placeholder="Find the practice that works for you">
@@ -216,45 +222,16 @@
       </form>
 
       <div>
-        <span class = "searchdate">
+        <span class="searchdate">
           <h2 class="heading2">Date From</h2>
-          <input type="date" id="dateFrom"> 
+          <input type="date" id="dateFrom">
         </span>
-        <span class = "searchdate">
-          <h2 class="heading2" id ="dateTo">Date To</h2>
+        <span class="searchdate">
+          <h2 class="heading2" id="dateTo">Date To</h2>
           <input type="date" id="dateTo">
-          </span>
-        </div>
-      {{!-- <div class="filters">
-        <h4 style="color:#6E9DDE">Advanced Search</h4>
-        <div class='f'>
-          <select id='typeFilter' class="typeFilter">
-            <option>Choose a filter</option>
-            <option value="method">Method</option>
-            <option value="participant">Participant</option>
-            <option value="benefit">Benefit</option>
-            <option value="option">Option</option>
-          </select>
-          <select class="criteria">
-            <option>Choose criteria</option>
-            <option value="contains">Contains</option>
-            <option value="equal">Is Equal To</option>
-            <option value="doesNotContain">Does Not Contain</option>
+        </span>
+      </div>
 
-          </select>
-          <select class="type" id="type">
-          </select>
-          <select class="operator" id="operator">
-
-            <option value="and" selected="true">AND</option>
-            <option value="or">OR</option>
-
-          </select>
-          <button type="submit" class="addFilter">
-            <span class="glyphicon glyphicon-plus"></span> Add
-          </button>
-        </div>
-      </div> --}}
       <br>
       <br>
       <br>
@@ -270,13 +247,13 @@
       <div style="padding-top: 20px">
         <table id="answer" style="display: none;">
           <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Journal Name</th>
+            <th onclick="sortTable(0)">Title</th>
+            <th onclick="sortTable(1)"> Author</th>
+            <th onclick="sortTable(2)">Journal Name</th>
             <th>Date</th>
-            <th>Research Question</th>
-            <th>Method</th>
-            <th>Weblink</th>
+            <th onclick="sortTable(3)">Research Question</th>
+            <th onclick="sortTable(4)">Method</th>
+            <th onclick="sortTable(1)">Weblink</th>
 
           </tr>
           <tbody id="tbody">
@@ -290,6 +267,62 @@
   {{>footer}}
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/js/search.js"></script>
+  <script>
+    function sortTable(n) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("answer");
+      switching = true;
+      // Set the sorting direction to ascending:
+      dir = "asc";
+      /* Make a loop that will continue until
+      no switching has been done: */
+      while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) {
+          // Start by saying there should be no switching:
+          shouldSwitch = false;
+          /* Get the two elements you want to compare,
+          one from current row and one from the next: */
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /* Check if the two rows should switch place,
+          based on the direction, asc or desc: */
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark that a switch has been done: */
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          // Each time a switch is done, increase this count by 1:
+          switchcount++;
+        } else {
+          /* If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again. */
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+  </script>
 
 
 </body>
