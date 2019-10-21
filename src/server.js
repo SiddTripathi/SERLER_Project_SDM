@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
 const bodyparser = require("body-parser");
-
+const Cite = require('citation-js')
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -286,3 +286,51 @@ searchword +
 app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
+
+//getmethod(for str);
+{example = new Cite(str);
+  let output = example.format('bibliography', {
+    template: 'apa',
+    lang: 'en-US'
+  })
+  
+  console.log(example)
+  
+  let title = example.data[0].title; console.log(title);
+  let i = 0;
+  let author = '';
+  while (example.data[0].author[i]) {
+    if (i > 0) { author = author + ' , ' }
+    author = author + example.data[0].author[i].given + '.' + example.data[0].author[i].family;
+    i++;
+  }
+  console.log(example.data[0].page);
+  let page = example.data[0].page;
+  let volume = example.data[0].volume; console.log(example.data[0].volume);
+  let issue = example.data[0].issue;
+  let journal = example.data[0].publisher; console.log(example.data[0].publisher);
+  date = example.data[0].issued['date-parts'][0][0]
+  
+  // let title=example.data[0].title;console.log(title);
+  if (title == undefined) { title = null; }
+  if (author == undefined) { author = null }
+  if (journal == undefined) { journal = null }
+  if (page == undefined) { page = null }
+  if (issue == undefined) { issue = null }
+  if (date == undefined) { date = null }
+  if (volume == undefined) { volume = null }
+  console.log("insert into article_table (org_article_id,title,author,journal_name,volume,number,page,date,weblink) values(nextval('org_article_id_seq'),'" + title + "','" + author + "','" + journal + "'," + volume + "," + issue + ",'" + page + "','" + date + "-01-01',null)");
+  
+  insert_word="insert into article_table (org_article_id,title,author,journal_name,volume,number,page,date,weblink) values(nextval('org_article_id_seq'),'" + title + "','" + author + "','" + journal + "'," + volume + "," + issue + ",'" + page + "','" + date + "-01-01',null)"
+  
+  client.query(
+    searchword,
+    (err, data) => {
+      if (err) throw err;
+      for (let row of data.rows) {
+        console.log(typeof row);
+        console.log(JSON.stringify(row));
+        dataset.push(row);
+      }
+    });
+  }
