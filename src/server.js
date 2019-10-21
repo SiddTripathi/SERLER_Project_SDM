@@ -26,6 +26,9 @@ app.get("", (req, res) => {
 app.get("/advanced", (req, res) => {
   res.render("advanced")
 });
+app.get("/bibtext", (req, res) => {
+  res.render("bibtext")
+});
 app.get("/about", (req, res) => {
   res.render("about", {
     title: "The About page",
@@ -255,9 +258,9 @@ app.post("/advancedSearch", (req, res) => {
     searchword +
     " and ai.article_id=at.article_id;");
 
-searchword="SELECT at.title,at.author,at.journal_name,to_char(at.date,'YYYY-MM') as date,at.weblink,ai.research_ques,ai.method,ai.benefit FROM article_info ai,article_table at where " +
-searchword +
-" and ai.article_id=at.article_id;";
+  searchword = "SELECT at.title,at.author,at.journal_name,to_char(at.date,'YYYY-MM') as date,at.weblink,ai.research_ques,ai.method,ai.benefit FROM article_info ai,article_table at where " +
+    searchword +
+    " and ai.article_id=at.article_id;";
   let dataset = [];
 
   client.query(
@@ -288,57 +291,58 @@ app.listen(port, () => {
 });
 
 
-app.get("/bibTex", (req, response) => {
+app.get('/bibText', (req, response) => {
   if (req.query.describe.trim() == "") {
     return response.send({
       error: "Please enter something to search......"
     });
   }
 
-str=req.query.describe;
+  let str = req.query.describe;
+  console.log(str)
 
-  example = new Cite(str);  let output = example.format('bibliography', {
-   template: 'apa',
+  example = new Cite(str); let output = example.format('bibliography', {
+    template: 'apa',
     lang: 'en-US'
-   })
-  
- console.log(example)
-  
-let title = example.data[0].title; 
-console.log(title);
+  })
+
+  console.log(example)
+
+  let title = example.data[0].title;
+  console.log(title);
   let i = 0;
-   let author = '';
-   while (example.data[0].author[i]) {
+  let author = '';
+  while (example.data[0].author[i]) {
     if (i > 0) { author = author + ' , ' }
-   author = author + example.data[0].author[i].given + '.' + example.data[0].author[i].family;
-   i++;
+    author = author + example.data[0].author[i].given + '.' + example.data[0].author[i].family;
+    i++;
   }
   console.log(example.data[0].page);
- let page = example.data[0].page;
-  let volume = example.data[0].volume; console.log(example.data[0].volume);  let issue = example.data[0].issue;
+  let page = example.data[0].page;
+  let volume = example.data[0].volume; console.log(example.data[0].volume); let issue = example.data[0].issue;
   let journal = example.data[0].publisher; console.log(example.data[0].publisher);
   date = example.data[0].issued['date-parts'][0][0]
-  
-let title1=example.data[0].title;console.log(title);
-   if (title1 == undefined) { title1= null; }
-   if (author == undefined) { author = null }
+
+  let title1 = example.data[0].title; console.log(title);
+  if (title1 == undefined) { title1 = null; }
+  if (author == undefined) { author = null }
   if (journal == undefined) { journal = null }
   if (page == undefined) { page = null }
   if (issue == undefined) { issue = null }
- if (date == undefined) { date = null }
- if (volume == undefined) { volume = null }
+  if (date == undefined) { date = null }
+  if (volume == undefined) { volume = null }
   console.log("insert into article_table (org_article_id,title,author,journal_name,volume,number,page,date,weblink) values(nextval('org_article_id_seq'),'" + title1 + "','" + author + "','" + journal + "'," + volume + "," + issue + ",'" + page + "','" + date + "-01-01',null)");
-  
-  insert_word="insert into article_table (org_article_id,title,author,journal_name,volume,number,page,date,weblink) values(nextval('org_article_id_seq'),'" + title1 + "','" + author + "','" + journal + "'," + volume + "," + issue + ",'" + page + "','" + date + "-01-01',null)"
-  
-   client.query(
-     insert_word,
-   (err, data) => {
-     if (err) throw err;
-       for (let row of data.rows) {
+
+  insert_word = "insert into article_table (org_article_id,title,author,journal_name,volume,number,page,date,weblink) values(nextval('org_article_id_seq'),'" + title1 + "','" + author + "','" + journal + "'," + volume + "," + issue + ",'" + page + "','" + date + "-01-01',null)"
+
+  client.query(
+    insert_word,
+    (err, data) => {
+      if (err) throw err;
+      for (let row of data.rows) {
         console.log(typeof row);
         console.log(JSON.stringify(row));
-       dataset.push(row);
+        dataset.push(row);
       }
     });
-  })
+})

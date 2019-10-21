@@ -154,7 +154,7 @@
     /*Resize the wrap to see the search bar change!*/
     .wrap {
       width: 50%;
-      position: absolute;
+
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -169,7 +169,10 @@
     .homeImage {
       display: block;
       margin-left: auto;
+
       margin-right: auto;
+      height: 200px;
+      width: 600px;
 
     }
 
@@ -199,12 +202,12 @@
     {{>header}}
   </div>
 
-  <div>
+  <div class="background">
     <img class="background" src="img/sample.jpg" />
     <div class="wrap">
       <img class="homeImage" src="img/serler icon v3 _300px.png" />
 
-      <h1 class="heading"> Making Software Engineer Decision Based on Evidence</h1>
+      <h2 class="heading"> Making Software Engineer Decision Based on Evidence</h2>
 
       <br>
       <br>
@@ -238,7 +241,10 @@
 
       <div class="advanced">
         <a href="/advanced">
-          <h3>Click Here for Advanced Search</h3>
+          <h3>Advanced Search</h3>
+        </a>
+        <a href="/bibtext">
+          <h3>Bibtext submission</h3>
         </a>
       </div>
       <div id="results" style="display: none">
@@ -268,53 +274,39 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/js/search.js"></script>
   <script>
+    //column sorting
     function sortTable(n) {
       var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
       table = document.getElementById("answer");
       switching = true;
-      // Set the sorting direction to ascending:
       dir = "asc";
-      /* Make a loop that will continue until
-      no switching has been done: */
       while (switching) {
-        // Start by saying: no switching is done:
         switching = false;
         rows = table.rows;
-        /* Loop through all table rows (except the
-        first, which contains table headers): */
         for (i = 1; i < (rows.length - 1); i++) {
-          // Start by saying there should be no switching:
           shouldSwitch = false;
-          /* Get the two elements you want to compare,
-          one from current row and one from the next: */
           x = rows[i].getElementsByTagName("TD")[n];
           y = rows[i + 1].getElementsByTagName("TD")[n];
-          /* Check if the two rows should switch place,
-          based on the direction, asc or desc: */
           if (dir == "asc") {
             if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
+
               shouldSwitch = true;
               break;
             }
           } else if (dir == "desc") {
             if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
+
               shouldSwitch = true;
               break;
             }
           }
         }
         if (shouldSwitch) {
-          /* If a switch has been marked, make the switch
-          and mark that a switch has been done: */
           rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
           switching = true;
-          // Each time a switch is done, increase this count by 1:
+
           switchcount++;
         } else {
-          /* If no switching has been done AND the direction is "asc",
-          set the direction to "desc" and run the while loop again. */
           if (switchcount == 0 && dir == "asc") {
             dir = "desc";
             switching = true;
