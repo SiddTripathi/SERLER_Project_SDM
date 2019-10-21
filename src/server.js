@@ -287,20 +287,19 @@ app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
 
-//getmethod(for str);
-// {
-//   example = new Cite(str);
-//   let output = example.format('bibliography', {
-//     template: 'apa',
-//     lang: 'en-US'
-//   })
+getmethod(for str);
+{
+  example = new Cite(str);  let output = example.format('bibliography', {
+   template: 'apa',
+    lang: 'en-US'
+   })
   
-//   console.log(example)
+ // console.log(example)
   
-//   let title = example.data[0].title; console.log(title);
-//   let i = 0;
-//   let author = '';
-//   while (example.data[0].author[i]) {
+//let title = example.data[0].title; console.log(title);
+  // let i = 0;
+   //let author = '';
+   //while (example.data[0].author[i]) {
 //     if (i > 0) { author = author + ' , ' }
 //     author = author + example.data[0].author[i].given + '.' + example.data[0].author[i].family;
 //     i++;
