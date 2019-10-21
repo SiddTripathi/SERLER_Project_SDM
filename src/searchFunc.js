@@ -1,7 +1,7 @@
 
-module.exports = function (search) {
+function basicSearch(search){
 
-
+    
     search = 'tdd'
     search = search.replace(/,/g, "' and lower(ai.summary) like '%");
     var searchword = "lower(ai.summary) like '%" + search + "%'";
@@ -28,24 +28,21 @@ module.exports = function (search) {
     let dataset = [];
     // console.log(search);
     client.query(
-        "SELECT at.title,at.author,at.journal_name,at.date,at.weblink FROM article_info ai,article_table at where (" +
+        "SELECT at.title,at.author,at.journal_name,to_char(at.date,'YYYY-MM') as date,at.weblink,ai.research_ques,ai.method FROM article_info ai,article_table at where (" +
         searchword +
-        ") and ai.article_id=at.article_id;",
+        ") and ai.article_id=at.article_id and (at.date between '"+ date1 +"' and '" + date2 + "');",
         (err, res) => {
-            if (err) throw err;
-            for (let row of res.rows) {
-                // console.log(typeof row);
-                // console.log(JSON.stringify(row.title));
-                dataset.push(row);
-            }
-            client.end();
-            return dataset;
-            console.log(JSON.stringify(dataset))
-        }
+          if (err) throw err;
+          for (let row of res.rows) {
+            console.log(typeof row);
+            console.log(JSON.stringify(row));
+            dataset.push(row);
+          }
+      
+client.end();
+console.log(dataset[0].title);return dataset;});}
 
-    );
+   
 
-    return dataset;
+module.exports={basicSearch:basicSearch
 }
-
-
