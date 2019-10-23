@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+        }
+
+        /* Navbar container */
+        .topnavbar {
+            overflow: hidden;
+            background-color: #333;
+            font-family: Arial;
+        }
+
+        /* Links inside the navbar */
+        .topnavbar a {
+            float: right;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        /* The dropdown container */
+        .dropdown {
+            float: right;
+            overflow: hidden;
+        }
+
+        /* Dropdown button */
+        .dropdown .dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 14px 16px;
+            background-color: inherit;
+            font-family: inherit;
+            /* Important for vertical align on mobile phones */
+            margin: 0;
+            /* Important for vertical align on mobile phones */
+        }
+
+        /* Add a red background color to navbar links on hover */
+        .topnavbar a:hover,
+        .dropdown:hover .dropbtn {
+            background-color: #6E9DDE;
+        }
+
+        /* Dropdown content (hidden by default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #6E9DDE;
+            min-width: 160px;
+            box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        /* Add a grey background color to dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topnavbar">
+        <a href="/contact">Contact</a>
+
+        <div class="dropdown">
+            <button class="dropbtn">Admin
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/admin">Home</a>
+                <a href="">Submitted Items</a>
+                <a href="">Roles</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Analyst
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/analyst">Home</a>
+                <a href="">Submitted Items</a>
+                <a href="">My Items</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Moderators
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/moderator">Home</a>
+                <a href="#">Submitted Items</a>
+                <a href="#">My Items</a>
+            </div>
+        </div>
+
+        <a href="/">Home</a>
+
+    </div>
+</body>
+
+</html>

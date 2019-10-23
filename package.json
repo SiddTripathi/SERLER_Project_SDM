@@ -1,0 +1,32 @@
+{
+  "name": "web-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "browserify": "^16.5.0",
+    "citation-js": "^0.5.0-alpha.4",
+    "citation.js": "^0.4.1",
+    "devextreme": "^19.1.6",
+    "express": "^4.17.1",
+    "hbs": "^4.0.5",
+    "jquery": "^3.4.1",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-react": "*",
+    "@babel/preset-typescript": "*",
+    "@types/jest": "*",
+    "babel-jest": "*",
+    "jest": "^24.9.0"
+  }
+}
