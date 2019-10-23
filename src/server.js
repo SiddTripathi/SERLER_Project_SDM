@@ -1,3 +1,6 @@
+/*
+importing required packages
+*/
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
@@ -6,12 +9,16 @@ const Cite = require("citation-js");
 const app = express();
 const port = process.env.PORT || 8080;
 
-//define path for express config
+/*
+define path for express config
+*/
 const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
 
-//setup handlebars engine and views location
+/*
+setup handlebars engine and views location
+*/
 app.set("view engine", "hbs");
 app.set("views", viewsPath);
 app.use(express.static(publicDirectoryPath));
@@ -19,7 +26,9 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }));
 hbs.registerPartials(partialsPath);
 
-//directories to serve
+/*
+directories to serve
+*/
 app.get("", (req, res) => {
   res.render("index");
 });
@@ -59,7 +68,7 @@ app.get("/analyst", (req, res) => {
     message: "Coming soon"
   });
 });
-
+/* Accessing Cloud Database*/
 const { Client } = require("pg");
 const client = new Client({
   user: "wnuvnkgceokgvn",
@@ -69,6 +78,8 @@ const client = new Client({
   database: "d5j9t6vspri53v",
   ssl: true
 });
+
+/* connection for Database*/
 // const Pool = require("pg").Pool;
 // const pool = new Pool({
 //   user: "wnuvnkgceokgvn",
@@ -80,6 +91,7 @@ const client = new Client({
 // });
 
 // client.connect();
+
 client.connect().then(() => console.log("connected"));
 
 // const search = (request, response) => {
@@ -95,6 +107,12 @@ client.connect().then(() => console.log("connected"));
 //   });
 // };
 
+
+/*Funciton for general Search
+Request: GET
+URL: "/search"
+*/
+
 app.get("/search", (req, response) => {
   if (req.query.describe.trim() == "") {
     return response.send({
@@ -102,12 +120,9 @@ app.get("/search", (req, response) => {
     });
   }
 
-
-
-
-  var search = req.query.describe; //screen searc bar
+  var search = req.query.describe;
   var date1 = req.query.start;
-  var date2 = req.query.endDate;  // var advSearch = req.query.desctibe;// adv search bar
+  var date2 = req.query.endDate;
   console.log("a" + date1 + "a")
   if (!date1) { date1 = '1960-01-01' }
   if (!date2) { date2 = '2020-01-01' }
@@ -117,9 +132,6 @@ app.get("/search", (req, response) => {
   //searchword = searchword+" or (lower(at.title) like '%"+search+"%')"; 
   searchword = searchword.toLowerCase();
   console.log(searchword);
-
-
-
 
   console.log("and (at.date between '" + date1 + " and " + date2 + ") ;");
   let dataset = [];
@@ -145,6 +157,13 @@ app.get("/search", (req, response) => {
   );
 });
 
+
+/* 
+Function for Advanced Search Method
+Request : POST
+URL: "/advancedSearch"
+*/
+
 app.post("/advancedSearch", (req, res) => {
   // let data = JSON.parse(req.body.data);
   // console.log(req.body.data)
@@ -153,14 +172,9 @@ app.post("/advancedSearch", (req, res) => {
   if (req.body.data[0].date1) { date1 = req.body.data[0].date1; };
   if (req.body.data[0].date2) { date2 = req.body.data[0].date2 };
 
-
-
-
   let searchword = '';
-
   console.log(req.body.data[0].operator)
   for (let i = 0; i < req.body.data.length; i++) {
-
 
     var a = req.body.data[i].type;
     var b = req.body.data[i].method;
@@ -168,7 +182,6 @@ app.post("/advancedSearch", (req, res) => {
     d = '('
     if (i > 0) { d = req.body.data[i - 1].operator + ' '; }
     console.log(d)
-
 
     if (b == 'contains') {
       c1 = d;
@@ -214,23 +227,15 @@ app.post("/advancedSearch", (req, res) => {
   // console.log(JSON.parse(req.body.data));
   // console.log(data)
   // var search = req.query.describe; //screen searc bar
-
   // var advSearch = req.query.desctibe;// adv search bar
-
   // search = search.replace(/,/g, "' and lower(ai.summary) like '%");
   // var searchword = "lower(ai.summary) like '%" + search + "%'";
   // searchword = searchword.toLowerCase();
-
-
-
   // var date1 = '1960-01-01';
   // var date2 = '2020-12-12';
   // //date1=;date2=;
   // searchword = '(date between \'' + date1 + '\' and \'' + date2 + '\')';
   // console.log(searchword);
-
-
-
   // let dataset = [];
   // console.log(search);
   // client.query(
@@ -279,26 +284,21 @@ app.post("/advancedSearch", (req, res) => {
     }
   );
 
-
-
-
-
 });
 
-
+/*
+local port 8080
+*/
 app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
 
 
-app.get('/bibText', (req, response) => {
-  if (req.query.describe.trim() == "") {
-    return response.send({
-      error: "Please enter something to search......"
-    });
-  }
-console.log("true")
-  let str = req.query.describe;
+app.post("/bibtextmethod", (req, response) => {
+  
+  
+  console.log("true")
+  let str = req.body.data[0];
   console.log(str)
 
   example = new Cite(str); let output = example.format('bibliography', {
@@ -306,9 +306,9 @@ console.log("true")
     lang: 'en-US'
   })
 
-  console.log(example)
+  console.log(example);
 
-  let title = example.data[0].title;
+  let title = example.title;
   console.log(title);
   let i = 0;
   let author = '';

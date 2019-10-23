@@ -57,10 +57,28 @@ $("#search").submit(e => {
 $('#bibText').submit(e => {
     e.preventDefault();
     let bibTxt = $("#bibTextBox").val();
+    
+    let object = {
+        "data": []
+    };
+    object.data.push(bibTxt)
     console.log(bibTxt)
     $.ajax({
-        method: "GET",
-        url: `/bibText?describe=${bibTxt}`
+        method: "POST",
+        url: "/bibtextmethod",
+        data: object,
+        success: data => {
+            if (!data.dataset) {
+                $("#errorResult").html("Results:" + data.error);
+
+            } else {
+
+                $("#errorResult").html("Results - Successful");
+
+            }
+
+
+        }
 
     });
 });
@@ -174,6 +192,7 @@ $("#advancedSearch").click(() => {
 
         object.data.push(temp);
     })
+    console.log(object.data);
     $.ajax({
         method: "POST",
         url: "/advancedSearch",
@@ -213,3 +232,4 @@ $("#advancedSearch").click(() => {
         }
     })
 });
+
