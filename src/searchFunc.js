@@ -44,7 +44,7 @@ let promise= new Promise((res1,rej)=>{
     })
 
     let results = await promise;
-    console.log(results);
+  
     return results;
 }
 
