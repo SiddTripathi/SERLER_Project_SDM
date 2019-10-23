@@ -297,7 +297,7 @@ app.get('/bibText', (req, response) => {
       error: "Please enter something to search......"
     });
   }
-
+console.log("true")
   let str = req.query.describe;
   console.log(str)
 
