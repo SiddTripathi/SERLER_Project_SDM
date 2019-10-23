@@ -174,6 +174,7 @@ $("#advancedSearch").click(() => {
 
         object.data.push(temp);
     })
+    console.log(object.data);
     $.ajax({
         method: "POST",
         url: "/advancedSearch",
