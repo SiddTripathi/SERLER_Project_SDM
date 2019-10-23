@@ -60,7 +60,19 @@ $('#bibText').submit(e => {
     console.log(bibTxt)
     $.ajax({
         method: "GET",
-        url: `/bibText?describe=${bibTxt}`
+        url: `/bibtextmethod?text=${bibTxt}`,
+        success: data => {
+            if (!data.dataset) {
+                $("#errorResult").html("Results:" + data.error);
+
+            } else {
+
+                $("#errorResult").html("Results - Successful");
+
+            }
+
+
+        }
 
     });
 });
@@ -213,3 +225,4 @@ $("#advancedSearch").click(() => {
         }
     })
 });
+

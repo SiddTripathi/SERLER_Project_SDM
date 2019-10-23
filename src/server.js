@@ -284,10 +284,6 @@ app.post("/advancedSearch", (req, res) => {
     }
   );
 
-
-
-
-
 });
 
 /*
@@ -298,13 +294,8 @@ app.listen(port, () => {
 });
 
 
-/*
-Function for Bibtext submission
-Request : GET
-URL : "/bibText"
-*/
-app.get('/bibText', (req, response) => {
-  if (req.query.describe.trim() == "") {
+app.get("/bibtextmethod", (req, response) => {
+  if (req.query.text.trim() == "") {
     return response.send({
       error: "Please enter something to search......"
     });
