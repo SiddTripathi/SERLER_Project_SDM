@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/style/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link href="https://cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet" />
 
   <style>
     .background {
@@ -253,8 +254,16 @@
       <div style="padding-top: 20px">
         <table id="answer" style="display: none;">
           <tr>
-            <th onclick="sortTable(0)">Title</th>
-            <th onclick="sortTable(1)"> Author</th>
+            <th onclick="sortTable(0)">
+              {{!-- <input type="text" id="myArticleInput" onkeyup="myArticle()" placeholder="Search for names.."
+                title="Type in a name"> --}}
+
+              Title
+            </th>
+            <th onclick="sortTable(1)">
+              {{!-- <input type="text" id="myAuthorInput" onkeyup="myAuthor()" placeholder="Search for names.."
+                title="Type in a name"> --}}
+              Author</th>
             <th onclick="sortTable(2)">Journal Name</th>
             <th>Date</th>
             <th onclick="sortTable(3)">Research Question</th>
@@ -265,55 +274,18 @@
           <tbody id="tbody">
 
           </tbody>
+
         </table>
 
       </div>
     </div>
   </div>
   {{>footer}}
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/js/search.js"></script>
-  <script>
-    //column sorting
-    function sortTable(n) {
-      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-      table = document.getElementById("answer");
-      switching = true;
-      dir = "asc";
-      while (switching) {
-        switching = false;
-        rows = table.rows;
-        for (i = 1; i < (rows.length - 1); i++) {
-          shouldSwitch = false;
-          x = rows[i].getElementsByTagName("TD")[n];
-          y = rows[i + 1].getElementsByTagName("TD")[n];
-          if (dir == "asc") {
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+  <script src="/js/features.js">
 
-              shouldSwitch = true;
-              break;
-            }
-          } else if (dir == "desc") {
-            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
 
-              shouldSwitch = true;
-              break;
-            }
-          }
-        }
-        if (shouldSwitch) {
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-          switching = true;
-
-          switchcount++;
-        } else {
-          if (switchcount == 0 && dir == "asc") {
-            dir = "desc";
-            switching = true;
-          }
-        }
-      }
-    }
   </script>
 
 
