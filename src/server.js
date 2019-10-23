@@ -294,14 +294,11 @@ app.listen(port, () => {
 });
 
 
-app.get("/bibtextmethod", (req, response) => {
-  if (req.query.text.trim() == "") {
-    return response.send({
-      error: "Please enter something to search......"
-    });
-  }
+app.post("/bibtextmethod", (req, response) => {
+  
+  
   console.log("true")
-  let str = req.query.describe;
+  let str = req.body.data[0];
   console.log(str)
 
   example = new Cite(str); let output = example.format('bibliography', {
@@ -309,9 +306,9 @@ app.get("/bibtextmethod", (req, response) => {
     lang: 'en-US'
   })
 
-  console.log(example)
+  console.log(example);
 
-  let title = example.data[0].title;
+  let title = example.title;
   console.log(title);
   let i = 0;
   let author = '';

@@ -57,10 +57,16 @@ $("#search").submit(e => {
 $('#bibText').submit(e => {
     e.preventDefault();
     let bibTxt = $("#bibTextBox").val();
+    
+    let object = {
+        "data": []
+    };
+    object.data.push(bibTxt)
     console.log(bibTxt)
     $.ajax({
-        method: "GET",
-        url: `/bibtextmethod?text=${bibTxt}`,
+        method: "POST",
+        url: "/bibtextmethod",
+        data: object,
         success: data => {
             if (!data.dataset) {
                 $("#errorResult").html("Results:" + data.error);
