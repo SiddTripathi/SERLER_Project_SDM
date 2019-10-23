@@ -1,37 +1,3 @@
-// const messageOne = document.querySelector("#message-1");
-
-// const article = document.querySelector("#article");
-// const researchQues = document.querySelector("#research-ques");
-// const benefit = document.querySelector("#benefit");
-
-// const searchform = document.querySelector("form");
-// const search = document.querySelector("input");
-
-// searchform.addEventListener("submit", e => {
-//   e.preventDefault();
-//   const searchText = search.value;
-//   messageOne.textContent = "Loading...";
-
-//   fetch("/search?describe=" + searchText).then(response => {
-//     response.json().then(data => {
-//       if (data.error) {
-//         console.log(data.error);
-//         messageOne.textContent = data.error;
-//       } else {
-//         console.log(data);
-//         let resultdata = JSON.stringify(data);
-//         console.log(resultdata);
-//         messageOne.textContent = "The result";
-//         article.textContent = data.dataset.article_id;
-//         researchQues.textContent = data.dataset.research_ques;
-//         benefit.textContent = data.dataset.benefit;
-//       }
-//     });
-//   });
-
-//   console.log(searchText);
-// });
-
 $("#search").submit(e => {
     e.preventDefault();
     let searchT = $("#searchTerm").val();
@@ -48,7 +14,8 @@ $("#search").submit(e => {
                     $("#results").show();
                 } else {
                     data = data.dataset;
-                    $("#errorResult").html("");
+                    $("#errorResult").html("Results -");
+                    $("#results").show();
                     let str = "";
                     data.forEach(d => {
 
@@ -87,7 +54,16 @@ $("#search").submit(e => {
         $("#results").show();
     }
 });
+$('#bibText').submit(e => {
+    e.preventDefault();
+    let bibTxt = $("#bibTextBox").val();
+    console.log(bibTxt)
+    $.ajax({
+        method: "GET",
+        url: `/bibText?describe=${bibTxt}`
 
+    });
+});
 let dropdown = $("#type");
 dropdown.empty();
 dropdown.append(
@@ -204,7 +180,7 @@ $("#advancedSearch").click(() => {
         data: object,
         success: (data) => {
             data = data.dataset;
-            $("#errorResult").html("");
+            $("#errorResult").html("Results");
             let str = "";
             data.forEach(d => {
                 str +=
